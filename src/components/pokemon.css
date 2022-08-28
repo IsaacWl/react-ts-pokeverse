@@ -1,0 +1,8 @@
+.pokemon {
+    box-shadow: 1px 2px 5px #ccc;
+    min-width: 20em;
+    width: 28em;
+    margin-bottom: 1em;
+    padding: 2em;
+    background: #ffff;
+}
