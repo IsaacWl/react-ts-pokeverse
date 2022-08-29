@@ -3,6 +3,12 @@
     min-width: 20em;
     width: 28em;
     margin-bottom: 1em;
-    padding: 2em;
+    padding-bottom: 1em;
     background: #ffff;
+    z-index: 1;
+    position: relative;
+}
+
+.pokemon-image {
+    background: #6cf;
 }
