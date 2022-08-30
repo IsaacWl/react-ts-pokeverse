@@ -12,10 +12,13 @@
     box-shadow: 1px 2px 5px #ccc;
     max-width: 20em;
 }
+
 .ability {
     background: #2cf;
     padding: 0 1em;
     border-radius: 10px;
+    font-size: 20px;
+    color: #f0ffff;
 }
 @media screen and (min-width: 500px) {
     .single-pokemon {

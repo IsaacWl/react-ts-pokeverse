@@ -1,11 +1,14 @@
 svg {
-    display: inline-block;
     position: absolute;
     top: 0;
     left: 0;
+    display: flex;
 }
+
 .link {
     z-index: 1;
     position: absolute;
-    left: 20px; 
+    left: 20px;
+    color: #f0ffff; 
+    font-family: Brush Script MT;
 }

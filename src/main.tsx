@@ -8,7 +8,7 @@ import Header from './components/partials/Header'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
-    <Header />
+    <Header /> 
     <Routes>
       <Route path='/' element={<App/> }/>
       <Route path='/pokemon/:pokemonNumber' element={<SinglePokemon />}/>

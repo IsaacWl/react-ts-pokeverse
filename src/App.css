@@ -3,3 +3,6 @@
   justify-content: center;
   text-align: center;
 }
+.pokemons-container {
+  transform: translateY(10em);
+}

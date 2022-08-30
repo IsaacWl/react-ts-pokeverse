@@ -1,29 +1,26 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import {fetchPokemons} from './api/pokeapi'
+import { fetchPokemons } from './api/pokeapi'
 import Pokemon from './components/Pokemon'
 import IPokemon from './models/pokemon'
 
 const App = () => {
   const [pokemons, setPokemons] = useState<IPokemon[] | []>([])
-
+  const [nextUrl, setNextUrl] = useState<number>(0)
   useEffect(() => {
     (async () => {
-      const { results } = await fetchPokemons()
-      setPokemons(results)
+      const { results } = await fetchPokemons(nextUrl)
+      setPokemons((prev) => {
+        return [...prev, ...results]
+      })
     })()
-  }, [])
+  }, [nextUrl])
 
   useEffect(() => {
     const detectBottom = async () => {
       const bottomOfPage = window.innerHeight + window.scrollY >= document.body.offsetHeight
       if (bottomOfPage) {
-        const { results, next } = await fetchPokemons(20, 10)
-        if (next) {
-          setPokemons((prev) => {
-            return [...prev, ...results]
-          })
-        }
+        setNextUrl((prev) => prev + 10)
       }
     }
     window.addEventListener("scroll", detectBottom)
@@ -33,18 +30,16 @@ const App = () => {
   }, [])
   return (
     <main className="center">
-      <div>
-        <section>
-          {pokemons?.map((pokemon, index) => (
-            <Pokemon
-              key={index}
-              name={pokemon.name}
-              sprite={String(index + 1)}
-              pokemonNumber={index+1}
-            />
-          ))}
-        </section>
-      </div>
+      <section className="pokemons-container">
+        {pokemons?.map((pokemon, index) => (
+          <Pokemon
+            key={index}
+            name={pokemon.name}
+            sprite={String(index + 1)}
+            pokemonNumber={index + 1}
+          />
+        ))}
+      </section>
     </main>
   )
 }
