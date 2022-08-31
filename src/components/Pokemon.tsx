@@ -1,20 +1,24 @@
 import IPokemon from "../models/pokemon"
 import "./pokemon.css"
 import { Link } from "react-router-dom"
+import { Card, CardContent, Typography } from "@mui/material"
+import { Container } from "@mui/system"
 
 const Pokemon = (props: IPokemon) => {
-    return <div className="pokemon">
-        <div className="pokemon-image">
-            <img 
+    return <Card className="pokemon">
+        <Container className="pokemon-image">
+           <img 
+            height="100"
+            width="100"
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${props.sprite}.png`} 
             alt={props.name} />
-        </div>
-        <div>
+        </Container>
+        <CardContent>
             <Link to={`/pokemon/${props.pokemonNumber}`}>
-                <h2>{props.name}</h2>
+                <Typography variant="h6">{props.name}</Typography>
             </Link>
-        </div>
-    </div>
+        </CardContent>
+    </Card>
 }
 
 export default Pokemon 

@@ -3,12 +3,16 @@ import './App.css'
 import { fetchPokemons } from './api/pokeapi'
 import Pokemon from './components/Pokemon'
 import IPokemon from './models/pokemon'
+import CircularProgress from "@mui/material/CircularProgress"
 
 const App = () => {
   const [pokemons, setPokemons] = useState<IPokemon[] | []>([])
   const [nextUrl, setNextUrl] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   useEffect(() => {
     (async () => {
+      setIsLoading(false)
       const { results } = await fetchPokemons(nextUrl)
       setPokemons((prev) => {
         return [...prev, ...results]
@@ -20,6 +24,7 @@ const App = () => {
     const detectBottom = async () => {
       const bottomOfPage = window.innerHeight + window.scrollY >= document.body.offsetHeight
       if (bottomOfPage) {
+        setIsLoading(true)
         setNextUrl((prev) => prev + 10)
       }
     }
@@ -28,9 +33,11 @@ const App = () => {
       window.removeEventListener("scroll", detectBottom)
     }
   }, [])
+
   return (
     <main className="center">
       <section className="pokemons-container">
+        {pokemons?.length <= 0 && <CircularProgress />}
         {pokemons?.map((pokemon, index) => (
           <Pokemon
             key={index}
@@ -39,6 +46,7 @@ const App = () => {
             pokemonNumber={index + 1}
           />
         ))}
+        {isLoading && <CircularProgress />}
       </section>
     </main>
   )
