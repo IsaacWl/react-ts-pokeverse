@@ -7,25 +7,35 @@ import CircularProgress from "@mui/material/CircularProgress"
 
 const App = () => {
   const [pokemons, setPokemons] = useState<IPokemon[] | []>([])
-  const [nextUrl, setNextUrl] = useState<number>(0)
+  const [nextUrl, setNextUrl] = useState<string|null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [page, setPage] = useState<number>(0)
 
   useEffect(() => {
+    const Signal = new AbortController();
     (async () => {
       setIsLoading(false)
-      const { results } = await fetchPokemons(nextUrl)
-      setPokemons((prev) => {
-        return [...prev, ...results]
+      const { results, next } = await fetchPokemons(nextUrl, {
+        signal: Signal.signal
       })
+      setNextUrl(next)
+      if (results) {
+        setPokemons((prev) => {
+          return [...prev, ...results]
+        })
+      }
     })()
-  }, [nextUrl])
+    return () => {
+      Signal.abort()
+    }
+  }, [page])
 
   useEffect(() => {
     const detectBottom = async () => {
-      const bottomOfPage = window.innerHeight + window.scrollY >= document.body.offsetHeight
+      const bottomOfPage = window.innerHeight + window.scrollY >= (document.body.offsetHeight - 500)
       if (bottomOfPage) {
         setIsLoading(true)
-        setNextUrl((prev) => prev + 10)
+        setPage((prevPage) => prevPage + 1)
       }
     }
     window.addEventListener("scroll", detectBottom)

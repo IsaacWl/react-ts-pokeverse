@@ -1,8 +1,11 @@
 const baseUrl = "https://pokeapi.co/api/v2/pokemon"
-const fetchPokemons = async (offset:number) => {
-    const url = `${baseUrl}?offset=${offset}&limit=10`
+const fetchPokemons = async (nextUrl: string | null, options?: {}) => {
+    let url = `${baseUrl}?offset=0&limit=10`
+    if (nextUrl) {
+        url = nextUrl
+    }
     try {
-        const request = await fetch(url)
+        const request = await fetch(url, options)
         const response = await request.json()
         return response
     } catch (error) {
