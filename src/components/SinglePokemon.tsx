@@ -1,3 +1,4 @@
+import { Box, CircularProgress, Container, Paper, Typography, Zoom } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { fetchPokemon } from "../api/pokeapi"
@@ -28,22 +29,22 @@ const SinglePokemon = () => {
         })()
 
     }, [])
-    return <article className="single-pokemon">
-        {!pokemon && <div>loading..</div>}
+    return <Paper className="single-pokemon" elevation={3}>
+        {!pokemon && <CircularProgress />}
         <div>
-            <h1>{pokemon?.name}</h1>
+            <Typography variant="h2" color="primary">{pokemon?.name}</Typography>
         </div>
         <div>
             <img src={pokemon?.sprite} alt={pokemon?.name} />
         </div>
-        <div>
+        <Box>
             {pokemon?.abilities?.map((ability, index) => (
-                <div key={index} className="ability">
-                    <h6>{ability}</h6>
-                </div>
+                <Zoom in={true} key={index} className="ability">
+                    <Typography variant="h6" mb={1}>{ability}</Typography>
+                </Zoom>
             ))}
-        </div>
-    </article>
+        </Box>
+    </Paper>
 }
 
 export default SinglePokemon
